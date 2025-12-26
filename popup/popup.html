@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkSaver</title>
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="popup-header">
+      <div class="flex items-center gap-s">
+        <div class="logo">🔗</div>
+        <h1 class="text-h3">LinkSaver</h1>
+      </div>
+      <button class="btn-icon" id="settingsBtn">⚙️</button>
+    </div>
+
+    <!-- Current Page Info -->
+    <div class="current-page glass-card">
+      <div class="page-info">
+        <div class="favicon-container">
+          <img id="pageFavicon" src="" alt="" class="favicon">
+          <div class="domain-indicator" id="domainIndicator"></div>
+        </div>
+        <div class="page-details">
+          <h3 class="page-title" id="pageTitle">Loading...</h3>
+          <p class="page-domain text-caption" id="pageDomain">example.com</p>
+        </div>
+      </div>
+      
+      <!-- Auto-detected Tags -->
+      <div class="auto-tags" id="autoTags">
+        <!-- Tags will be populated by JS -->
+      </div>
+    </div>
+
+    <!-- Quick Note -->
+    <div class="note-section">
+      <div class="search-bar">
+        <input 
+          type="text" 
+          class="input" 
+          id="quickNote" 
+          placeholder="Add a quick note (optional)..."
+          maxlength="200"
+        >
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <button class="btn btn-primary save-btn" id="saveBtn">
+      <span class="save-text">💾 Save Link</span>
+      <span class="save-loading" style="display: none;">⏳ Saving...</span>
+      <span class="save-success" style="display: none;">✅ Saved!</span>
+    </button>
+
+    <!-- Recent Saves -->
+    <div class="recent-section">
+      <h4 class="text-body mb-s">📌 Recent Saves</h4>
+      <div class="recent-links" id="recentLinks">
+        <!-- Recent links will be populated by JS -->
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button class="btn btn-secondary" id="openDashboard">
+        📊 Dashboard
+      </button>
+      <button class="btn btn-secondary" id="viewAll">
+        📚 View All
+      </button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

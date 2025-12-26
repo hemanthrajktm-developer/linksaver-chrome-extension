@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkSaver Extension Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>🔗 LinkSaver Extension Test Page</h1>
+    
+    <div class="test-card">
+        <h2>Installation Test</h2>
+        <p>This page helps you test the LinkSaver Chrome extension.</p>
+        <div id="extensionStatus" class="status info">
+            Checking extension status...
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>Test Links</h2>
+        <p>Try saving these test links using the extension:</p>
+        <ul>
+            <li><a href="https://github.com" target="_blank">GitHub - Code Repository</a></li>
+            <li><a href="https://stackoverflow.com" target="_blank">Stack Overflow - Programming Help</a></li>
+            <li><a href="https://youtube.com" target="_blank">YouTube - Video Platform</a></li>
+            <li><a href="https://medium.com" target="_blank">Medium - Article Platform</a></li>
+        </ul>
+    </div>
+
+    <div class="test-card">
+        <h2>Keyboard Shortcuts</h2>
+        <p>Test these keyboard shortcuts:</p>
+        <ul>
+            <li><strong>Cmd+Shift+S</strong> (Mac) / <strong>Ctrl+Shift+S</strong> (Windows) - Save current page</li>
+            <li><strong>Cmd+Shift+L</strong> (Mac) / <strong>Ctrl+Shift+L</strong> (Windows) - Open dashboard</li>
+        </ul>
+    </div>
+
+    <div class="test-card">
+        <h2>Manual Tests</h2>
+        <button onclick="testExtension()">Test Extension API</button>
+        <button onclick="openDashboard()">Open Dashboard</button>
+        <div id="testResults"></div>
+    </div>
+
+    <script>
+        function checkExtensionStatus() {
+            const statusEl = document.getElementById('extensionStatus');
+            
+            if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id) {
+                statusEl.className = 'status success';
+                statusEl.textContent = '✅ Extension is loaded and working!';
+            } else {
+                statusEl.className = 'status error';
+                statusEl.textContent = '❌ Extension not detected. Make sure it\'s installed and enabled.';
+            }
+        }
+
+        function testExtension() {
+            const resultsEl = document.getElementById('testResults');
+            resultsEl.innerHTML = '<div class="status info">Testing extension functionality...</div>';
+            
+            try {
+                // Test if we can access chrome APIs
+                if (typeof chrome !== 'undefined' && chrome.storage) {
+                    chrome.storage.local.get(['links'], (result) => {
+                        const links = result.links || [];
+                        resultsEl.innerHTML = `
+                            <div class="status success">
+                                ✅ Extension API accessible<br>
+                                📚 Found ${links.length} saved links
+                            </div>
+                        `;
+                    });
+                } else {
+                    resultsEl.innerHTML = '<div class="status error">❌ Cannot access extension APIs</div>';
+                }
+            } catch (error) {
+                resultsEl.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        function openDashboard() {
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                const dashboardUrl = chrome.runtime.getURL('dashboard/dashboard.html');
+                window.open(dashboardUrl, '_blank');
+            } else {
+                alert('Extension not available');
+            }
+        }
+
+        // Check status on page load
+        document.addEventListener('DOMContentLoaded', checkExtensionStatus);
+    </script>
+</body>
+</html>
